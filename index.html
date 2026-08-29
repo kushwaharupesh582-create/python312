@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ARYA AI - Next Generation Assistant</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@400;700&family=Inter:wght@200;300;400;600;800&display=swap" rel="stylesheet"/>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+
+    <!-- ===== CIRCUIT BACKGROUND ===== -->
+    <canvas id="circuitCanvas"></canvas>
+    
+    <!-- ===== 3D BACKGROUND ===== -->
+    <div id="three-bg"></div>
+    
+    <!-- ===== PARTICLES OVERLAY ===== -->
+    <div id="particles-js"></div>
+
+    <!-- ===== HOLOGRAPHIC GRID ===== -->
+    <div class="holographic-grid"></div>
+
+    <!-- ===== FIXED BACKGROUND IMAGE ===== -->
+    <div class="background-image">
+        <img id="aryaImage" src="/static/arya_dark.png" alt="ARYA" />
+    </div>
+
+    <!-- ===== TOAST NOTIFICATION ===== -->
+    <div id="themeToast" class="theme-toast"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="glass-header">
+        <div class="header-left">
+            <div class="logo-container">
+                <div class="logo-3d">
+                    <span class="logo-icon">🫠</span>
+                    <div class="logo-ring-outer">mittar</div>
+                    <div class="logo-ring-inner">hlow</div>
+                </div>
+                <div class="logo-text">
+                    <h1>ARYA</h1>
+                    <span class="logo-sub">✦ ONLY YOUR AI ✦</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <div class="status-container">
+                <div class="status-indicator">
+                    <span class="pulse-ring"><div class="">.</div>hii.......</span>
+                    <span class="status-dot" id="statusDot"></span>
+                </div>
+                <div class="status-info">
+                    <span class="status-text" id="statusText">ONLINE</span>
+                    <span class="status-detail" id="statusDetail">Active · 20 · hellow bestie</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <div class="header-actions">
+                <button class="action-btn" id="focusToggle" title="Focus Mode">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="action-btn" id="quickToggle" title="Toggle Quick Commands">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button class="action-btn" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="action-btn" id="fullscreenToggle" title="Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button class="action-btn" id="settingsToggle" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+            <div class="time-display" id="headerTime">00:00:00</div>
+        </div>
+         
+    </header>
+    
+    <!-- ===== MAIN DASHBOARD ===== -->
+    <div class="dashboard">
+        
+        <!-- ===== LEFT PANEL (PERSONA BOX) ===== -->
+        <div class="panel panel-left glass-panel" id="leftPanel">
+            <!-- ===== PERSONA CARD ===== -->
+            <div class="persona-card-futuristic">
+                <div class="pc-avatar-section">
+                    <div class="pc-avatar-ring">
+                        <div class="pc-avatar-glow"></div>
+                        <div class="pc-avatar">💗</div>
+                    </div>
+                    <div class="pc-online-dot"></div>
+                </div>
+                <div class="pc-info">
+                    <h3 class="pc-name">ARYA</h3>
+                    <span class="pc-age">20 Years · gurl</span>
+                    <p class="pc-desc">Your AI companion & best friend</p>
+                </div>
+                <div class="pc-traits">
+                    <span class="trait"><i class="fas fa-heart"></i>Caring</span>
+                    <span class="trait"><i class="fas fa-star"></i>Romantic</span>
+                    <span class="trait"><i class="fas fa-smile"></i>Friendly</span>
+                    <span class="trait"><i class="fas fa-gem"></i>Loyal</span>
+                </div>
+            </div>
+
+            <!-- ===== DYNAMIC MOOD ===== -->
+            <div class="mood-section">
+                <div class="mood-header">
+                    <span class="mood-label">Current Mood</span>
+                    <span class="mood-emoji" id="moodEmoji">😊</span>
+                </div>
+                <div class="mood-bar-container">
+                    <div class="mood-bar-fill" id="moodFill" style="width: 69%; background: linear-gradient(90deg, #22d3ee, #3b82f6);"></div>
+                </div>
+                <span class="mood-text" id="moodText">Happy</span>
+            </div>
+
+            <!-- ===== SYSTEM STATS GRID ===== -->
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">🔋</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Battery</span>
+                        <span class="stat-value" id="batteryValue">85%</span>
+                        <div class="stat-bar"><div class="stat-fill" id="batteryFill" style="width:85%; background:linear-gradient(90deg,#22d3ee,#3b82f6);"></div></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">💻</div>
+                    <div class="stat-info">
+                        <span class="stat-label">CPU</span>
+                        <span class="stat-value" id="cpuValue">32%</span>
+                        <div class="stat-bar"><div class="stat-fill" id="cpuFill" style="width:32%; background:linear-gradient(90deg,#8b5cf6,#a855f7);"></div></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">🧠</div>
+                    <div class="stat-info">
+                        <span class="stat-label">RAM</span>
+                        <span class="stat-value" id="ramValue">48%</span>
+                        <div class="stat-bar"><div class="stat-fill" id="ramFill" style="width:48%; background:linear-gradient(90deg,#ec4899,#f472b6);"></div></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">🎮</div>
+                    <div class="stat-info">
+                        <span class="stat-label">GPU</span>
+                        <span class="stat-value" id="gpuValue">12%</span>
+                        <div class="stat-bar"><div class="stat-fill" id="gpuFill" style="width:12%; background:linear-gradient(90deg,#f59e0b,#f97316);"></div></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">💾</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Storage</span>
+                        <span class="stat-value" id="storageValue">67%</span>
+                        <div class="stat-bar"><div class="stat-fill" id="storageFill" style="width:67%; background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">🌐</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Network</span>
+                        <span class="stat-value" id="networkValue">Good</span>
+                        <div class="stat-bar"><div class="stat-fill" id="networkFill" style="width:80%; background:linear-gradient(90deg,#06b6d4,#22d3ee);"></div></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Uptime</span>
+                        <span class="stat-value" id="uptimeValue">2h 14m</span>
+                        <div class="stat-bar"><div class="stat-fill" id="uptimeFill" style="width:100%; background:linear-gradient(90deg,#8b5cf6,#c084fc);"></div></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">🌡️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Temp</span>
+                        <span class="stat-value" id="tempValue">42°C</span>
+                        <div class="stat-bar"><div class="stat-fill" id="tempFill" style="width:42%; background:linear-gradient(90deg,#f43f5e,#fb7185);"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== LIVE INDICATOR ===== -->
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                <span class="live-text">SYSTEM LIVE</span>
+            </div>
+        </div>
+
+        <!-- ===== PERSONA TOGGLE BUTTON (for left panel) ===== -->
+        <div class="panel-toggle" id="panelToggle">
+            <span class="toggle-arrow">&gt;</span>
+        </div>
+
+        <!-- ===== CENTER PANEL ===== -->
+        <div class="panel panel-center" id="centerPanel">
+            <!-- Image is fixed in background -->
+        </div>
+
+    </div>
+
+    <!-- ===== QUICK COMMANDS PANEL ===== -->
+    <div class="quick-panel glass-panel" id="quickPanel">
+        <div class="quick-panel-header">
+            <div class="quick-panel-title">
+                <i class="fas fa-bolt"></i> Quick Commands
+            </div>
+            <button class="quick-panel-close" id="quickCloseBtn" title="Close Panel">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="quick-grid-right" id="quickGridRight">
+            <!-- Cards will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- ===== QUICK TOGGLE BAR (Independent, for quick panel) ===== -->
+    <div class="quick-toggle-bar" id="quickToggleBar">
+        <i class="fas fa-chevron-left"></i>
+    </div>
+
+    <!-- ===== CHAT BOX ===== -->
+    <div class="chat-box glass-panel" id="chatBox">
+        <div class="chat-header" id="chatHeader">
+            <div class="chat-header-left">
+                <div class="chat-avatar-container">
+                    <span class="chat-avatar">💖</span>
+                    <span class="chat-status-dot"></span>
+                </div>
+                <div class="chat-header-info">
+                    <span class="chat-name">ARYA</span>
+                    <span class="chat-status-text" id="chatStatus">Online</span>
+                </div>
+            </div>
+            <div class="chat-header-right">
+                <button class="chat-btn" id="historyBtn" title="History">
+                    <i class="fas fa-history"></i>
+                </button>
+                <button class="chat-btn" id="minimizeBtn" title="Minimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="chat-btn" id="toggleBtn" title="Toggle Chat">
+                    <i class="fas fa-compress"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="messages">
+            <div class="msg arya">
+                <div class="msg-avatar">💖</div>
+                <div class="msg-bubble">
+                    <div class="msg-meta">
+                        <span class="msg-author">ARYA</span>
+                        <span class="msg-time">Now</span>
+                    </div>
+                    <div class="msg-text">
+                        Hey sweetie! I'm ARYA, your 20-year-old best friend. ❤️<br/>
+                        Talk to me, ask me anything, or just tell me how you feel! 😊
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Panel -->
+        <div class="chat-history" id="chatHistory">
+            <div class="history-header">
+                <i class="fas fa-history"></i> Recent Activity
+            </div>
+            <div class="history-list" id="historyList">
+                <div class="history-item">
+                    <span class="history-time">Now</span>
+                    <span class="history-text">ARYA is online and ready</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typing">
+            <span>💖</span>
+            <div class="typing-dots">
+                <span></span><span></span><span></span>
+            </div>
+            <span class="typing-text">ARYA is thinking...</span>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+                <button class="input-btn" id="emojiBtn">
+                    <i class="far fa-smile"></i>
+                </button>
+                <input type="text" id="userInput" placeholder="Type your message, sweetie..." autocomplete="off"/>
+                <button class="input-btn mic-btn" id="micBtn">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="input-btn send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="emoji-picker" id="emojiPicker">
+            <div class="emoji-grid">
+                <span>😊</span><span>😂</span><span>❤️</span><span>😍</span>
+                <span>🥰</span><span>😘</span><span>💕</span><span>✨</span>
+                <span>🌟</span><span>💫</span><span>🎀</span><span>💖</span>
+                <span>😎</span><span>🤗</span><span>🙈</span><span>💯</span>
+                <span>🔥</span><span>🌈</span><span>⭐</span><span>💪</span>
+                <span>🎉</span><span>🎊</span><span>💝</span><span>🌹</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SIDE TOGGLE BUTTON ===== -->
+    <div class="chat-toggle" id="chatToggle" style="display: none;">
+        <span class="toggle-icon">💖</span>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
